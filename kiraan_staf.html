@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<title>Elaun Show As Sakinah</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --dark-blue: #0f1e3a;
+  --mid-blue: #162a52;
+  --gold: #d4af37;
+  --gold-soft: #f1e3a2;
+  --text-light: #f5f7fa;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin:0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  color: var(--text-light);
+  padding: 20px;
+}
+
+.container {
+  max-width: 520px;
+  margin: auto;
+  background: rgba(15,30,58,0.95);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+label {
+  font-size: 14px;
+  color: var(--gold-soft);
+  display: block;
+  margin-bottom: 6px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #1f3566;
+  color: white;
+  margin-bottom: 16px;
+}
+
+input::placeholder { color: #9fb0d9; }
+input:focus { border: 1px solid var(--gold); box-shadow: 0 0 0 2px rgba(212,175,55,0.3); }
+
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.kira { background: linear-gradient(135deg, var(--gold), #b8962e); color: #1a1a1a; }
+.kira:hover { opacity:0.9; }
+
+.reset { margin-top:10px; background:transparent; color: var(--gold-soft); border:1px solid var(--gold-soft);}
+.reset:hover { background: rgba(212,175,55,0.15); }
+
+.result {
+  margin-top: 20px;
+  padding:16px;
+  background: #162a52;
+  border-radius:14px;
+  line-height:1.6;
+  border-left:4px solid var(--gold);
+}
+
+.result b { color: var(--gold); }
+
+@media (max-width:480px){
+  body { padding:12px; }
+  .container { padding:16px; }
+  h2 { font-size:20px; }
+  input, button { font-size:16px; padding:12px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Elaun Show As Sakinah</h2>
+
+<label>Jumlah Keseluruhan (RM)</label>
+<input type="number" id="jumlah" placeholder="Contoh: 1000">
+
+<label>Tabung As Sakinah (RM)</label>
+<input type="number" id="tabungSyarikat" placeholder="Contoh: 100">
+
+<label>Tabung PA Sistem (RM)</label>
+<input type="number" id="tabungPA" placeholder="Contoh: 150">
+
+<label>Minyak (RM)</label>
+<input type="number" id="minyak" placeholder="Contoh: 50">
+
+<label>Tol (RM)</label>
+<input type="number" id="tol" placeholder="Contoh: 20">
+
+<label>Bilangan Ahli</label>
+<input type="number" id="pemain" placeholder="Contoh: 10">
+
+<label>Kadar PA Sistem (RM / kepala)</label>
+<input type="number" id="kadarPA" placeholder="Contoh: 20">
+
+<label>Bantuan PA Sistem (0 – 2 orang)</label>
+<input type="number" id="bantuanPA" min="0" max="2" placeholder="Contoh: 1">
+
+<button class="kira" ontouchstart="kira()" onclick="kira()">Kira</button>
+<button class="reset" ontouchstart="resetForm()" onclick="resetForm()">Reset</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+function kira() {
+  var jumlah = parseFloat(document.getElementById("jumlah").value) || 0;
+  var tabungSyarikat = parseFloat(document.getElementById("tabungSyarikat").value) || 0;
+  var tabungPA = parseFloat(document.getElementById("tabungPA").value) || 0;
+  var minyak = parseFloat(document.getElementById("minyak").value) || 0;
+  var tol = parseFloat(document.getElementById("tol").value) || 0;
+  var pemain = parseFloat(document.getElementById("pemain").value) || 1;
+  var kadarPA = parseFloat(document.getElementById("kadarPA").value) || 0;
+  var bantuanPA = parseFloat(document.getElementById("bantuanPA").value) || 0;
+
+  if (bantuanPA > 2) { 
+    alert("Bantuan PA maksimum 2 orang sahaja."); 
+    return false;
+  }
+
+  if (pemain <= 0) {
+    alert("Bilangan ahli mesti lebih dari 0");
+    return false;
+  }
+
+  var baki = jumlah - tabungSyarikat - tabungPA - minyak - tol;
+  var elaunSeorang = baki / pemain;
+  var elaunBulat = Math.floor(elaunSeorang);
+  var lebihanSen = baki - (elaunBulat * pemain);
+  tabungSyarikat = tabungSyarikat + lebihanSen;
+
+  var potongPA = kadarPA * bantuanPA;
+  var tabungPAAkhir = tabungPA - potongPA;
+  if (tabungPAAkhir < 0) tabungPAAkhir = 0;
+
+  document.getElementById("result").innerHTML = 
+    "<b>Keputusan Kiraan</b><br><br>" +
+    "Elaun Seorang: RM " + elaunBulat.toFixed(2) + "<br>" +
+    "Tambahan Tabung As Sakinah (sen lebihan): RM " + lebihanSen.toFixed(2) + "<br>" +
+    "<b>Tabung As Sakinah Akhir:</b> RM " + tabungSyarikat.toFixed(2) + "<br><br>" +
+    "Potongan Bantuan PA: RM " + potongPA.toFixed(2) + "<br>" +
+    "<b>Tabung PA Akhir:</b> RM " + tabungPAAkhir.toFixed(2);
+
+  return false;
+}
+
+function resetForm() {
+  document.getElementById("jumlah").value = "";
+  document.getElementById("tabungSyarikat").value = "";
+  document.getElementById("tabungPA").value = "";
+  document.getElementById("minyak").value = "";
+  document.getElementById("tol").value = "";
+  document.getElementById("pemain").value = "";
+  document.getElementById("kadarPA").value = "";
+  document.getElementById("bantuanPA").value = "";
+  document.getElementById("result").innerHTML = "";
+  return false;
+}
+</script>
+
+</body>
+</html>
