@@ -108,28 +108,28 @@ button {
 <h2>Elaun Show As Sakinah</h2>
 
 <label>Jumlah Keseluruhan (RM)</label>
-<input type="number" id="jumlah" placeholder="Contoh: 1000">
+<input type="number" inputmode="decimal" id="jumlah" placeholder="Contoh: 1000">
 
 <label>Tabung As Sakinah (RM)</label>
-<input type="number" id="tabungSyarikat" placeholder="Contoh: 100">
+<input type="number" inputmode="decimal" id="tabungSyarikat" placeholder="Contoh: 100">
 
 <label>Tabung PA Sistem (RM)</label>
-<input type="number" id="tabungPA" placeholder="Contoh: 150">
+<input type="number" inputmode="decimal" id="tabungPA" placeholder="Contoh: 150">
 
 <label>Minyak (RM)</label>
-<input type="number" id="minyak" placeholder="Contoh: 50">
+<input type="number" inputmode="decimal" id="minyak" placeholder="Contoh: 50">
 
 <label>Tol (RM)</label>
-<input type="number" id="tol" placeholder="Contoh: 20">
+<input type="number" inputmode="decimal" id="tol" placeholder="Contoh: 20">
 
 <label>Bilangan Ahli</label>
-<input type="number" id="pemain" placeholder="Contoh: 10">
+<input type="number" inputmode="numeric" id="pemain" placeholder="Contoh: 10">
 
 <label>Kadar PA Sistem (RM / kepala)</label>
-<input type="number" id="kadarPA" placeholder="Contoh: 20">
+<input type="number" inputmode="decimal" id="kadarPA" placeholder="Contoh: 20">
 
 <label>Bantuan PA Sistem (0 – 2 orang)</label>
-<input type="number" id="bantuanPA" min="0" max="2" placeholder="Contoh: 1">
+<input type="number" inputmode="numeric" id="bantuanPA" min="0" max="2" placeholder="Contoh: 1">
 
 <button class="kira" ontouchstart="kira()" onclick="kira()">Kira</button>
 <button class="reset" ontouchstart="resetForm()" onclick="resetForm()">Reset</button>
@@ -195,5 +195,4 @@ function resetForm() {
 </script>
 
 </body>
-
 </html>
